@@ -30,7 +30,8 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#ffff00] to-[#15162c] gap-6" >
         <h1>Welcome to AoE 4 Build Order Site</h1>
         <Link className="border p-5" href="/submit-build"> Submit a new Build</Link>
-    
+        <Link className="border p-5" href="/builds"> Show all Builds</Link>
+
       </main>
     </>
   );
