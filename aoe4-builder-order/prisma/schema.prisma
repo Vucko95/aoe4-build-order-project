@@ -68,6 +68,7 @@ model VerificationToken {
 
 model BuildOrder {
     id      String  @id @default(cuid())
+    civilization String
     build   String
 
 }

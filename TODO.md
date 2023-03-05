@@ -1,2 +1,4 @@
 - as a user, I shall be able to upload aoe4 build
+    - show error if the build order input is empty
+    - show and error if civilization is not selected
 - as a user, I shall be able to view build orders
