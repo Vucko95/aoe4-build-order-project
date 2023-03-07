@@ -3,9 +3,14 @@
 [![Stack](https://skills.thijs.gg/icons?i=nextjs,ts,prisma,postgres,tailwind&theme=dark)](https://skills.thijs.gg)
 ### TODO:
 
+CURRENT: 
 
-BASE:
-- as a user, I shall be able to upload aoe4 build
-    - show error if the build order input is empty
-    - show and error if civilization is not selected
-- as a user, I shall be able to view build orders
+- As a User I wanna Create a Specific Build which will have a type and short Description
+    - ADD ABILITY TO ADD 
+        - Build Type (Fast Castle, etc...)
+        - Description  (This build is for ....)
+    - Add Ability to Remove Certian Build
+    - Create Page to Display Full Build
+        - Display a Build On new Page once User Click on display Build
+    - Enhance Build Creation
+    - Enhance Build Display Page
