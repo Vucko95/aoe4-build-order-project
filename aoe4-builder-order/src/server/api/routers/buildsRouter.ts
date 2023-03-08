@@ -10,7 +10,7 @@ export const buildRouter = createTRPCRouter({
 
 
   createBuild: publicProcedure
-    .input(z.object({ civilization: z.string(), build: z.string() }))
+    .input(z.object({ civilization: z.string(), build: z.string(), typee: z.string(), desc: z.string() }))
     .mutation(async ({ input, ctx }) => {
       const build = await ctx.prisma.buildOrder.create({
         data: {

@@ -69,6 +69,11 @@ model VerificationToken {
 model BuildOrder {
     id      String  @id @default(cuid())
     civilization String
+    typee   String
+    desc   String
     build   String
 
 }
+
+// npx prisma db push
+// npx prisma studio
