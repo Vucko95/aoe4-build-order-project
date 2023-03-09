@@ -1,10 +1,48 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
+import { useState } from "react";
 import { api } from "~/utils/api";
 
 const BuildsPage: NextPage = () => {
   const builds = api.builds.getBuilds.useQuery();
+  const [selectedCivilization, setSelectedCivilization] = useState("");
+
+  const civilizations = [
+    'Abbasid Dynasty', 
+    'Chinese', 
+    'Delhi Sultanate', 
+    'English', 
+    'French', 
+    'Holy Roman Empire', 
+    'Mongols', 
+    'Rus', 
+    'Ottomans', 
+    'Malians'
+  ];
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+  
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCivilization(event.target.value);
+  }
+
+
+  const filteredBuilds = selectedCivilization 
+    ? builds.data?.filter((build) => build.civilization === selectedCivilization) 
+    : builds.data;
+    
+
+
+
+
 
   return (
     <>
@@ -17,8 +55,27 @@ const BuildsPage: NextPage = () => {
       <h1 className="mb-2 text-center text-3xl pt-5 font-bold tracking-tight text-gray-900 dark:text-white">
         Player Builds
       </h1>
+        <br />
+      <div className="flex items-center justify-center">
+            <label htmlFor="civilization-select" className="mr-2">Filter by civilization:</label>
+            <select 
+              id="civilization-select" 
+              onChange={handleSelectChange}
+              value={selectedCivilization || ''}
+              className="p-2 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg outline-none focus:ring focus:ring-blue-300"
+            >
+              <option value="">All</option>
+              {civilizations.map((civilization) => (
+                <option key={civilization} value={civilization}>{civilization}</option>
+              ))}
+            </select>
+          </div>
+
+
     <div className="grid grid-cols-4 gap-4 grid-flow-row w-[60%] ml-[20%] pt-20">
-      {builds.data?.map((build) => (
+      {/* {builds.data?.map((build) => ( */}
+      {filteredBuilds?.map((build) => (
+        
         <div key={build.id} className="flex flex-col justify-center items-center w-[250px] h-[300px] p-2.5 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <a  href="#">
             <img className="  h-[150px]"  src={`/aoe4/${build.civilization.toLowerCase()}.png`} alt="" />
@@ -31,96 +88,37 @@ const BuildsPage: NextPage = () => {
                 </a>
                 <a href="#">
                     <p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    {build.desc}
+                    {build.typee}
                         </p>
                 </a>
                     <div className=" items-center w-[200px] h-[40px]">
 
-                    <a href="#" className="inline-flex items-center  px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a onClick={openModal} href="#" className="inline-flex items-center  px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Check Build
                         <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                     </a>
-                    {/* <button data-modal-target="defaultModal" data-modal-toggle="defaultModal" className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-  Toggle modal
-</button> */}
+
                     </div>
+                   
+                  {isOpen && (
+                    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center ">
+                    <div className=" p-6  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" >
+                        <h2 className="text-lg font-bold mb-4">Whole Build </h2>
+                        <p className="mb-4">Modal content goes here{build.build}</p>
+                     
+                        <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+                        Close modal
+                        </button>
+                    </div>
+                    </div>
+                )}
+
+
             </div>
         </div>
            ))  
         }
     </div>
-
-    {/* <div id="defaultModal" tabIndex="-1" aria-hidden="true" className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div className="relative w-full h-full max-w-2xl md:h-auto">
-      
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-     
-            <div className="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    Terms of Service
-                </h3>
-                <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
-                    <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
-                    <span className="sr-only">Close modal</span>
-                </button>
-            </div>
-        
-            <div className="p-6 space-y-6">
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-            </div>
-         
-            <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="defaultModal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                <button data-modal-hide="defaultModal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
-            </div>
-        </div>
-    </div>
-</div> */}
-
-
-        {/* TABLE */}
-{/* <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-
-                <th scope="col" className="px-6 py-3">
-                    ID
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Civilization
-                </th>
-                <th scope="col" className="px-6 py-3">
-                    Build
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-        {builds.data?.map((build) => (
-            <tr key={build.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                {build.id}
-                </th>
-                <td className="px-6 py-4">
-                {build.civilization}
-                </td>
-                <td className="px-6 py-4">
-                {build.build}
-                </td>
-               
-            </tr>
-                               ))  
-                              }
-            
-        </tbody>
-    </table>
-</div> */}
 
     
       </main>

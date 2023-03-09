@@ -64,10 +64,10 @@ const SubmitPage: NextPage = () => {
             onChange={(e) => setType(e.target.value)}
             id="select-type" 
             required> 
-            <option value="Fast Cavalry">Fast Cavalry</option>
-            <option value="Rush Castle">Rush Castle</option>
-            <option value="Fast Archers">Fast Archers</option>
-            <option value="Rush Imperial">Rush Imperial</option>
+            <option value="Pro Build">Pro Build</option>
+            <option value="Beginner Build">Beginner Build</option>
+            <option value="Any Elo">Any Elo</option>
+            <option value="LSC BROs">LSC BROs</option>
           </select>
           <label className="block  text-sm font-medium text-gray-900 dark:text-white">Short Description </label>
           <textarea value={desc} onChange={(e) => setDesc(e.target.value)} required  

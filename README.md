@@ -15,6 +15,8 @@ CURRENT:  :clock130:
         - Display a Full Build once user clicks on display build
 - As A User I want to Filter builds based on Civilization 
 - ADDITIONALS 
+    - Dummy Data :heavy_check_mark:
     - Enhance Submit Build Display Page
         - On a side Add a Demo Build Example 
         - Add "Asset" Icons for base game Assets
+    - When Build is Sumbited, Notification "Build has been added ..."
