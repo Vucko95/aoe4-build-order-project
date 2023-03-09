@@ -11,9 +11,9 @@ CURRENT:  :clock130:
         - Description  (This build is for ....) :heavy_check_mark:
     - Add Feature to Remove Certian Build  :heavy_exclamation_mark:
 - As a User I want check out each build
-    - Create Modal to Display Full Build
-        - Display a Full Build once user clicks on display build
-- As A User I want to Filter builds based on Civilization 
+    - Create Modal to Display Full Build  :heavy_exclamation_mark:
+        - Display a Full Build once user clicks on display build  :heavy_exclamation_mark:  :heavy_exclamation_mark:
+- As A User I want to Filter builds based on Civilization  :heavy_check_mark: :heavy_check_mark:
 - ADDITIONALS 
     - Dummy Data :heavy_check_mark:
     - Enhance Submit Build Display Page
