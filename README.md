@@ -1,10 +1,9 @@
 # AOE4 Build Order Website Project
 
 [![Stack](https://skills.thijs.gg/icons?i=nextjs,ts,prisma,postgres,tailwind&theme=dark)](https://skills.thijs.gg)
-### TODO: :underage:
-
-CURRENT:  :clock130:
-
+### TODO: 
+CURRENT: 
+![Alt text](aoe4-builder-order/public/aoe4/giphy4.gif)
 - As a User I wanna Create a Specific Build which will have a type and short Description
     - ADD ABILITY TO ADD :heavy_check_mark:
         - Build Type (Fast Castle, etc...) :heavy_check_mark:
@@ -15,6 +14,7 @@ CURRENT:  :clock130:
         - Display a Full Build once user clicks on display build :heavy_check_mark: :heavy_check_mark:
 - As A User I want to Filter builds based on Civilization  :heavy_check_mark: :heavy_check_mark:
 - ADDITIONALS 
+    - Add Icons to Selector Options at Submit Page
     - Dummy Data :heavy_check_mark:
     - Enhance Submit Build Display Page
         - On a side Add a Demo Build Example 
