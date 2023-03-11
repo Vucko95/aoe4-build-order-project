@@ -1,12 +1,15 @@
+import { BuildOrder } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { api } from "~/utils/api";
 
 const BuildsPage: NextPage = () => {
   const builds = api.builds.getBuilds.useQuery();
   const [selectedCivilization, setSelectedCivilization] = useState("");
-
+  // const [selectedBuild, setSelectedBuild] = useState(null);
+  // console.log(builds)
+  const [selectedBuild, setSelectedBuild] = useState<BuildOrder | undefined>(undefined);
   const civilizations = [
     'Abbasid Dynasty', 
     'Chinese', 
@@ -22,8 +25,14 @@ const BuildsPage: NextPage = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  function openModal() {
+  function openModal(id: string) {
+    const selectedBuild = builds.data?.find((build) => build.id === id);
+    console.log(selectedBuild)
+    setSelectedBuild(selectedBuild);
+
     setIsOpen(true);
+    return selectedBuild;
+
   }
 
   function closeModal() {
@@ -32,6 +41,7 @@ const BuildsPage: NextPage = () => {
   
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCivilization(event.target.value);
+  
   }
 
 
@@ -93,18 +103,23 @@ const BuildsPage: NextPage = () => {
                 </a>
                     <div className=" items-center w-[200px] h-[40px]">
 
-                    <a onClick={openModal} href="#" className="inline-flex items-center  px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <a  onClick={() => openModal(build.id)} href="#" className="inline-flex items-center  px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Check Build
                         <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                     </a>
 
                     </div>
                    
-                  {isOpen && (
+                  {isOpen &&  selectedBuild  &&  (
                     <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center ">
-                    <div className=" p-6  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" >
-                        <h2 className="text-lg font-bold mb-4">Whole Build </h2>
-                        <p className="mb-4">Modal content goes here{build.build}</p>
+                    <div className="flex flex-col p-6 w-[60%] justify-center items-center   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" >
+                        {/* <h2 className="text-lg font-bold mb-4">Whole Build </h2> */}
+                        <h1 className="mb-4 ">    {selectedBuild.civilization}</h1>
+                        <img className="  h-[120px] w-[250px] mb-5"  src={`/aoe4/${selectedBuild.civilization.toLowerCase()}.png`} alt="" />
+
+                        <p className="mb-4  "> DESCRIPTION:   {selectedBuild.desc}</p>
+                        <p className="mb-4 ">BUILD ORDER DETAILS:</p>
+                        <p className="mb-4 w-[60%]">{selectedBuild.build}</p>
                      
                         <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Close modal
