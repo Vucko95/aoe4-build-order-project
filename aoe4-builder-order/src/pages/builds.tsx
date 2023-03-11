@@ -65,6 +65,7 @@ const BuildsPage: NextPage = () => {
       <h1 className="mb-2 text-center text-3xl pt-5 font-bold tracking-tight text-gray-900 dark:text-white">
         Player Builds
       </h1>
+
         <br />
       <div className="flex items-center justify-center">
             <label htmlFor="civilization-select" className="mr-2">Filter by civilization:</label>
@@ -111,15 +112,15 @@ const BuildsPage: NextPage = () => {
                     </div>
                    
                   {isOpen &&  selectedBuild  &&  (
-                    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center ">
-                    <div className="flex flex-col p-6 w-[60%] justify-center items-center   bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" >
+                    <div className=" fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center ">
+                    <div className=" flex flex-col p-6 w-[60%] justify-center items-center   bg-white border-8	 border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" >
                         {/* <h2 className="text-lg font-bold mb-4">Whole Build </h2> */}
                         <h1 className="mb-4 ">    {selectedBuild.civilization}</h1>
                         <img className="  h-[120px] w-[250px] mb-5"  src={`/aoe4/${selectedBuild.civilization.toLowerCase()}.png`} alt="" />
 
                         <p className="mb-4  "> DESCRIPTION:   {selectedBuild.desc}</p>
                         <p className="mb-4 ">BUILD ORDER DETAILS:</p>
-                        <p className="mb-4 w-[60%]">{selectedBuild.build}</p>
+                        <p className="mb-4   w-full ">{selectedBuild.build}</p>
                      
                         <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Close modal
