@@ -17,8 +17,8 @@ const HomePage: NextPage = () => {
 
 
 
-<h2 className=" text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-6xl dark:text-white">
-Make an awesome build and conquer the battlefield!</h2>
+{/* <h2 className=" text-3xl font-extrabold leading-none tracking-tight text-gray-900 md:text-4xl lg:text-6xl mt-5 dark:text-white"> */}
+{/* Make an awesome build and conquer the battlefield!</h2> */}
 {/* <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
     Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p> */}
 <a href="#" className="inline-flex items-center mt-5 justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">

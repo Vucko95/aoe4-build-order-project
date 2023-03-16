@@ -7,6 +7,8 @@ import { api } from "~/utils/api";
 const BuildsPage: NextPage = () => {
   const builds = api.builds.getBuilds.useQuery();
   const [selectedCivilization, setSelectedCivilization] = useState("");
+  const [typeFilter, setTypeFilter] = useState('');
+
   // const [selectedBuild, setSelectedBuild] = useState(null);
   // console.log(builds)
   const [selectedBuild, setSelectedBuild] = useState<BuildOrder | undefined>(undefined);
@@ -45,12 +47,21 @@ const BuildsPage: NextPage = () => {
   }
 
 
-  const filteredBuilds = selectedCivilization 
-    ? builds.data?.filter((build) => build.civilization === selectedCivilization) 
-    : builds.data;
+  // const filteredBuilds = selectedCivilization 
+  //   ? builds.data?.filter((build) => build.civilization === selectedCivilization) 
+  //   : builds.data;
+  const filteredBuilds = builds.data
+  ? builds.data.filter(
+      (build) =>
+        (selectedCivilization === '' || build.civilization === selectedCivilization) &&
+        (typeFilter === '' || build.typee.toLowerCase().includes(typeFilter.toLowerCase()))
+    )
+  : [];
     
 
-
+  const handleTypeFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTypeFilter(event.target.value);
+  };
 
 
 
@@ -62,12 +73,10 @@ const BuildsPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className=" min-h-screen      text-black dark:bg-gray-800 dark:text-white" >
-      <h1 className="mb-2 text-center text-3xl pt-5 font-bold tracking-tight text-gray-900 dark:text-white">
+      <h1 className="mb-2  text-center text-3xl pt-5 font-bold tracking-tight text-gray-900 dark:text-white">
         Player Builds
       </h1>
-
-        <br />
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center mt-10">
             <label htmlFor="civilization-select" className="mr-2">Filter by civilization:</label>
             <select 
               id="civilization-select" 
@@ -78,9 +87,20 @@ const BuildsPage: NextPage = () => {
               <option value="">All</option>
               {civilizations.map((civilization) => (
                 <option key={civilization} value={civilization}>{civilization}</option>
-              ))}
+                ))}
             </select>
-          </div>
+      </div>
+      <div className="flex items-center justify-center mt-10">
+                <label htmlFor="type-filter" className="mr-2">Filter by build type:</label>
+            <input
+              id="type-filter"
+              type="text"
+              value={typeFilter}
+              onChange={handleTypeFilterChange}
+              className="p-2 bg-gray-100 dark:bg-gray-700 dark:text-white rounded-lg outline-none focus:ring focus:ring-blue-300"
+              />
+                  <br />
+        </div>
 
 
     <div className="grid grid-cols-4 gap-4 grid-flow-row w-[60%] ml-[20%] pt-20">
@@ -120,7 +140,7 @@ const BuildsPage: NextPage = () => {
 
                         <p className="mb-4  "> DESCRIPTION:   {selectedBuild.desc}</p>
                         <p className="mb-4 ">BUILD ORDER DETAILS:</p>
-                        <p className="mb-4   w-full ">{selectedBuild.build}</p>
+                        <p className="mb-4 whitespace-pre-line max-w-[800px] break-all">{selectedBuild.build}</p>
                      
                         <button onClick={closeModal} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
                         Close modal
@@ -128,7 +148,6 @@ const BuildsPage: NextPage = () => {
                     </div>
                     </div>
                 )}
-
 
             </div>
         </div>

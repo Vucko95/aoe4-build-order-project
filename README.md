@@ -16,7 +16,7 @@ CURRENT:
 - ADDITIONALS 
     - Add Icons to Selector Options at Submit Page
     - Dummy Data :heavy_check_mark:
-    - Enhance Submit Build Display Page
+    - Enhance Submit Build Display Page :heavy_check_mark:
         - On a side Add a Demo Build Example 
         - Add "Asset" Icons for base game Assets
     - When Build is Sumbited, Notification "Build has been added ..." 
