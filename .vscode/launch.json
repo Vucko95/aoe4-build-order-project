@@ -1,0 +1,27 @@
+{
+
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "PROXY BRO",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "6969",
+                "--reload",
+                // "--log-level",
+                // "warning"
+            ],
+            "jinja": true,
+            "justMyCode": true,
+            "python": "C:\\Users\\ronal\\Documents\\GitHub\\aoe4-build-order-project\\aoe4-builder-order\\proxy\\aoe4proxy\\Scripts\\python.exe",
+            "cwd": "C:\\Users\\ronal\\Documents\\GitHub\\aoe4-build-order-project\\aoe4-builder-order\\proxy"
+
+        }
+    ]
+}
