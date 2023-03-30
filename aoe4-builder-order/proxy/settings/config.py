@@ -1,3 +1,7 @@
 aoe4_base = 'https://aoe4world.com/api/v0/'
 aoe4_leaderboards = 'https://aoe4world.com/api/v0/leaderboards/'
 aoe4_leaderboards_rm_solo = 'https://aoe4world.com/api/v0/leaderboards/rm_solo'
+aoe4_leaderboards_qm_1v1 = 'https://aoe4world.com/api/v0/leaderboards/qm_1v1'
+aoe4_leaderboards_qm_2v2 = 'https://aoe4world.com/api/v0/leaderboards/qm_2v2'
+aoe4_leaderboards_qm_3v3 = 'https://aoe4world.com/api/v0/leaderboards/qm_3v3'
+aoe4_leaderboards_qm_4v4 = 'https://aoe4world.com/api/v0/leaderboards/qm_4v4'
