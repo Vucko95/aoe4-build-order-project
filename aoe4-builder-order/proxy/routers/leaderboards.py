@@ -14,7 +14,7 @@ def get_best_players():
     best_mfkers = leaderboard_list_json['players']
     player_info = []
     for player in best_mfkers:
-        player_info.append({'player_name': player['name'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
+        player_info.append({'player_name': player['name'], 'profile_id' : player['profile_id'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
     return player_info
 
 
@@ -26,7 +26,7 @@ def get_best_players():
     best_mfkers = leaderboard_list_json['players']
     player_info = []
     for player in best_mfkers:
-        player_info.append({'player_name': player['name'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
+        player_info.append({'player_name': player['name'] ,'profile_id' : player['profile_id'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
     return player_info
 
 @router.get("/leaderboards/qm_2v2")
@@ -36,7 +36,7 @@ def get_best_players():
     best_mfkers = leaderboard_list_json['players']
     player_info = []
     for player in best_mfkers:
-        player_info.append({'player_name': player['name'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
+        player_info.append({'player_name': player['name'] , 'profile_id' : player['profile_id'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
     return player_info
 
 @router.get("/leaderboards/qm_3v3")
@@ -46,7 +46,7 @@ def get_best_players():
     best_mfkers = leaderboard_list_json['players']
     player_info = []
     for player in best_mfkers:
-        player_info.append({'player_name': player['name'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
+        player_info.append({'player_name': player['name'] , 'profile_id' : player['profile_id'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
     return player_info
 
 @router.get("/leaderboards/qm_4v4")
@@ -56,5 +56,5 @@ def get_best_players():
     best_mfkers = leaderboard_list_json['players']
     player_info = []
     for player in best_mfkers:
-        player_info.append({'player_name': player['name'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
+        player_info.append({'player_name': player['name'] , 'profile_id' : player['profile_id'] , 'max_rating': player['max_rating'], 'current_rating' : player['rating']})
     return player_info

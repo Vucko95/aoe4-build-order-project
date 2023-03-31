@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import leaderboards
+from routers import leaderboards, players
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -18,4 +18,5 @@ app.add_middleware(
 
 
 app.include_router(leaderboards.router)
+app.include_router(players.router)
 
