@@ -7,7 +7,8 @@ const config = {
         13: "3.25rem", // adjust the value as needed
       },  
       margin: {
-        'top-13': '53.5px',
+        'top-13': '30.2px',
+        'top-23': '34.2px',
       },
       keyframes: {
         slideRight: {

@@ -4,27 +4,40 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
-type PlayerInfo = {
+type TopPlayersList = {
     player_name : string;
     max_rating : number;
     current_rating : number;   
     profile_id : number;
 }
 type PlayerDetails = {
+    player_name: string;
+
     small_avatar: string;
     rating: number;
     win_rate: number;
     rank_level: string;
+    profile_id : number;
 }
 
-type PlayerRM_Solo_Info = {
+
+type PlayerModeStatsInfo = {
     civilization : string;
     win_rate : number;
 }
 
+type PlayerModesList = {
+    mod_name : string,
+    mod_rating : number
+}
+
 const LeaderboardPage: NextPage = () => { 
-    const [playerInfo, setPlayerinfo] = useState<PlayerInfo[]>([]);
-    const [playerRM_Solo_Info, setPlayerRM_Solo_Info] = useState<PlayerRM_Solo_Info[]>([]);
+    const [topPlayersList, setTopPlayersList] = useState<TopPlayersList[]>([]);
+    const [playerDetails, setPlayerDetails] = useState<PlayerDetails[]>([]);
+    const [activePlayerID, setActivePlayerID] = useState<"">();
+
+    const [playerModeStatsInfo, setPlayerModeStatsInfo] = useState<PlayerModeStatsInfo[]>([]);
+    const [playerModesList, setPlayerModesListo] = useState<PlayerModesList[]>([]);
     const [leaderboardType, setLeaderboardType] = useState("rm_solo");
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -37,18 +50,19 @@ const LeaderboardPage: NextPage = () => {
         'abbasid_dynasty': 'abbasid dynasty.png',
         'delhi_sultanate': 'delhi sultanate.png',
         'chinese': 'chinese.png',
+        'french': 'french.png',
         'ottomans': 'ottomans.png'
       };
-    const [playerDetails, setPlayerDetails] = useState<PlayerDetails[]>([]);
 
             const fetchLeaderboard = async () => {
             // const res = fetch('http://localhost:6969/leaderboards/qm_4v4');
             // setIsLoading(true);
             const res = await fetch(`http://localhost:6969/leaderboards/${leaderboardType}`);
             const data = await (await res).json();
-            console.log(data)
+  
+            // console.log(data)
             // setIsLoading(false);
-            setPlayerinfo(data);
+            setTopPlayersList(data);
         }
 
             const getPlayerBaseInfo = async (profileId: number) => {
@@ -66,12 +80,50 @@ const LeaderboardPage: NextPage = () => {
                     // console.log(data.player_info); 
                     // console.log(data.rm_solo_civs_player_info); 
                     setPlayerDetails(data.player_info);
-                    setPlayerRM_Solo_Info(data.rm_solo_civs_player_info)
+                    // console.log(data.player_info.profile_id);
+                    // console.log(data.player_info[0].profile_id);
+                    // console.log(data.player_info);
+                    setActivePlayerID(data.player_info[0].profile_id)
+                    setPlayerModeStatsInfo(data.rm_solo_civs_player_info)
+                    setPlayerModesListo(data.played_modes)
+                    // console.log(data.played_modes); 
+                    // console.log(data.played_modes); 
+
 
                   } catch (error) {
                     console.error(error);
                   }
             };
+
+        const displayModeWinRate = async (mod_name : string) => {
+
+            try {
+                const response = await fetch('http://localhost:6969/player/mod/info', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ "mod_name": mod_name, "profile_id" : activePlayerID })
+
+                  
+                });
+                const data = await response.json();
+                // console.log(data.player_info); 
+                console.log(data.player_mode_civ_winRate_stats); 
+                // setPlayerDetails(data.player_info);
+                // console.log(data.player_info);
+                // console.log(data);
+            
+                setPlayerModeStatsInfo(data.player_mode_civ_winRate_stats)
+                // setPlayerModesListo(data.played_modes)
+                // console.log(data.played_modes); 
+                // console.log(data.played_modes); 
+
+
+              } catch (error) {
+                console.error(error);
+              }
+        }
 
     useEffect(() => {
 
@@ -133,7 +185,7 @@ const LeaderboardPage: NextPage = () => {
                     </thead>
 
                     <tbody  className="max-h-[25%] overflow-y-auto h-32">
-                        {playerInfo.slice(0, 10).map((player, index) => (
+                        {topPlayersList.slice(0, 10).map((player, index) => (
                         <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={index}>
                         <td className="px-6 py-4">
                             <a
@@ -156,68 +208,61 @@ const LeaderboardPage: NextPage = () => {
 
 
 {/* 2nd Column */}
-        <div className="flex flex-col items-center mt-16">
+        <div className="flex flex-col items-center mt-16  basis-1/4">
 
-        <img  src="/aoe4/dog.gif" className="ml-32 object-cover w-full rounded-t-lg  md:h-auto md:w-16 md:rounded-none md:rounded-l-lg"  alt=""/> 
-            <label className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                Player Information
+
+            {playerDetails.map((player) => (
+                <div className="flex mt-5 gap-6 ">
+            <img src={player.small_avatar} alt="" className=" w-24 h-24	 rounded-xl" />
+            <label className="self-center text-xl font-semibold whitespace-nowrap dark:text-white"  key={player.small_avatar}>
+
+                {player.player_name}
             </label>
-            <table className=" mt-top-13 text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" className="px-6 py-3">
-                    Avatar
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                    Solo Rating
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                    Win Rate
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                    Rank Level
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {playerDetails.map((player) => (
-                    <tr
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 	"
-                    key={player.small_avatar}
-                    >
-                    <td className="px-6 py-4">
-                        <img src={player.small_avatar} alt="" className="h-12 w-12 rounded-2xl" />
-                    </td>
-                    <td className="px-6 py-4">{player.rating}</td>
-                    <td className="px-6 py-4">{player.win_rate}%</td>
-                    <td className="px-6 py-4">{player.rank_level}</td>
-                    </tr>
+                </div>    
+                
                 ))}
 
-                </tbody>
-            </table>
-
-            {/* {playerDetails.map((player) => (
-                    <ul
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 	"
-                    key={player.small_avatar}
-                    >
-                    <li className="px-6 py-4">
-                        <img src={player.small_avatar} alt="" className="h-12 w-12 rounded-2xl" />
-                    </li>
-                    <li className="px-6 py-4">{player.rating}</li>
-                    <li className="px-6 py-4">{player.win_rate}%</li>
-                    <li className="px-6 py-4">{player.rank_level}</li>
-                    </ul>
-                ))} */}
-
+        
+        <table className="mt-top-13 text-sm text-left text-gray-500 dark:text-gray-400">
+  <thead className=" sticky  top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" className="px-6 py-3">
+        Mode Name
+      </th>
+      <th scope="col" className="px-6 py-3">
+        Mode Rating
+      </th>
+      <th scope="col" className="px-6 py-3">
+       Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {playerModesList.map((mode) => (
+      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700" key={mode.mod_name}>
+        <td className="px-6 py-4 ">{mode.mod_name}</td>
+        <td className="px-6 py-4 pl-10">{mode.mod_rating}</td>
+        <td className="px-6 py-4">
+             <a 
+                 onClick={() => displayModeWinRate(mode.mod_name)} 
+                href="#" className="inline-flex items-center  px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Check Rating
+                {/* <svg aria-hidden="true" className="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd"></path></svg> */}
+            </a>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
 </div>
 {/* 3RD Column */}
         <div className="flex flex-col items-center mt-20">
                     {/* CIV WIN RATIO INFO */}
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50 dark:bg-gray-700">
+                    <img  src="/aoe4/dog.gif" className="object-cover w-full md:h-auto md:w-24  "  alt=""/> 
+
+                    <table className=" mt-top-23 min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50 dark:bg-gray-700 border-hidden	">
                             <tr>
                             <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">
                                 Civilization
@@ -228,7 +273,7 @@ const LeaderboardPage: NextPage = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            {playerRM_Solo_Info.map((info, index) => (
+                            {playerModeStatsInfo.map((info, index) => (
                             <tr key={index}>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
@@ -236,6 +281,7 @@ const LeaderboardPage: NextPage = () => {
                                     <div className="text-sm font-medium text-gray-900 dark:text-white">{info.civilization} </div>
                                 </div>
                                 </td>
+          
                                 <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-gray-500 dark:text-gray-400">{info.win_rate} %</div>
                                 </td>
