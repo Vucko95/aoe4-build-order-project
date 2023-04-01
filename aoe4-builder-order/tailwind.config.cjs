@@ -9,6 +9,7 @@ const config = {
       margin: {
         'top-13': '30.2px',
         'top-23': '34.2px',
+        'cat': '55.5px',
       },
       keyframes: {
         slideRight: {

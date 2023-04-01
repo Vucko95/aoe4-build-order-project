@@ -64,7 +64,14 @@ def get_best_players():
     "rank_level": rank_level
 }
     player_info.append(player)
+    file_name = 'data.json'
+    with open(file_name, 'w') as json_file:
+        json.dump(aoe4_players_base_example_json, json_file)
     return player_info
+
+
+
+
 
 @router.post("/player/info")
 # def get_base_player_info(profile_id: int):
@@ -99,14 +106,17 @@ def get_base_player_info(data: dict):
     for one_civilization in rm_solo_civs_stats:
         # print(one_civilization['civilization'])
         win_rate = "{:.1f}".format(one_civilization['win_rate'])
+        pick_rate = "{:.1f}".format(one_civilization['pick_rate'])
 
         rm_solo_civilization_information = {
             'civilization' : one_civilization['civilization'],
             'win_rate' : win_rate,
+            'pick_rate' :pick_rate,
+            'games_count' :  one_civilization['games_count'],
         }
         rm_solo_civs_player_info.append(rm_solo_civilization_information)
 
-
+        print(rm_solo_civs_player_info)
     ## MODES 
 
 
@@ -130,41 +140,56 @@ def get_base_player_info(data: dict):
 
 
 @router.post("/player/mod/info")
-# def get_base_player_info(profile_id: int):
-def get_base_player_info(data: dict):
+def get_base_mod_info(data: dict):
     mod_name = data['mod_name']
     profile_id = data['profile_id']
-    # aoe4_player_info = f"{aoe4_players_base}{profile_id}"
-    # response = requests.get(url = aoe4_player_info)
-    # response_json = json.loads(response.content) 
-    # mfker_info =response_json
-    # print(mod_name)
-    # print(profile_id)
-    # print(profile_id)
     aoe4_player_info = f"{aoe4_players_base}{profile_id}"
     response = requests.get(url = aoe4_player_info)
     mfker_info = json.loads(response.content) 
     mode_info = mfker_info['modes'][mod_name]['civilizations']
     player_mode_civ_winRate_stats = []
     for one_civilization in mode_info:
-        print(one_civilization['civilization'])
+        win_rate = "{:.1f}".format(one_civilization['win_rate'])
+        pick_rate = "{:.1f}".format(one_civilization['pick_rate'])
         rm_solo_civilization_information = {
             'civilization' : one_civilization['civilization'],
-            'win_rate' : one_civilization['win_rate'],
+            'win_rate' : win_rate,
+            'pick_rate' : pick_rate,
+            'games_count' :  one_civilization['games_count'],
+
         }
         player_mode_civ_winRate_stats.append(rm_solo_civilization_information)
-    # print(player_mode_civ_winRate_stats)
-    print(player_mode_civ_winRate_stats)
+
     return { "player_mode_civ_winRate_stats": player_mode_civ_winRate_stats }
 
-    # get_scors = requests.get()
-    # rm_solo_civs_stats = mfker_info['modes']['rm_solo']['civilizations']
-    # rm_solo_civs_player_info = []
-    # for one_civilization in rm_solo_civs_stats:
-    #     print(one_civilization['civilization'])
-    #     rm_solo_civilization_information = {
-    #         'civilization' : one_civilization['civilization'],
-    #         'win_rate' : one_civilization['win_rate'],
-    #     }
-    #     rm_solo_civs_player_info.append(rm_solo_civilization_information)
-    # print(rm_solo_civs_player_info)
+
+
+    # RM SOLO PLAYER INFO EACH CIV WIN RATE
+    rm_solo_civs_stats = mfker_info['modes']['rm_solo']['civilizations']
+    rm_solo_civs_player_info = []
+    for one_civilization in rm_solo_civs_stats:
+        # print(one_civilization['civilization'])
+        win_rate = "{:.1f}".format(one_civilization['win_rate'])
+        pick_rate = "{:.1f}".format(one_civilization['pick_rate'])
+
+        rm_solo_civilization_information = {
+            'civilization' : one_civilization['civilization'],
+            'win_rate' : win_rate,
+            'pick_rate' :pick_rate,
+            'games_count' :  one_civilization['games_count'],
+        }
+        rm_solo_civs_player_info.append(rm_solo_civilization_information)
+
+        print(rm_solo_civs_player_info)
+    ## MODES 
+
+@router.get("/games")
+def get_best_players():
+    
+    
+    response = requests.get(url = 'https://aoe4world.com/api/v0/games')
+    aoe4_players_base_example_json = json.loads(response.content) 
+    print(aoe4_players_base_example_json)
+    file_name = 'data.json'
+    with open(file_name, 'w') as json_file:
+        json.dump(aoe4_players_base_example_json, json_file)
